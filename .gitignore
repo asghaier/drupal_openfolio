@@ -1,8 +1,8 @@
-# Social dev files #
+# Openfolio dev files #
 ####################
 test-results
 scripts/local
-scripts/social
+scripts/openfolio
 files_private/
 
 # Docker files #

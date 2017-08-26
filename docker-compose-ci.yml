@@ -2,16 +2,16 @@ version: "2"
 
 services:
   web_scripts:
-    image: goalgorilla/open_social_docker:ci
+    image: asghaier/openfolio_docker:ci
     volumes:
      - ./:/var/www
     environment:
      - DRUPAL_SETTINGS=production
     network_mode: "bridge"
-    container_name: social_ci_web_scripts
+    container_name: openfolio_ci_web_scripts
 
   web:
-    image: goalgorilla/open_social_docker:ci
+    image: asghaier/openfolio_docker:ci
     volumes:
      - ./:/var/www
     links:
@@ -22,36 +22,36 @@ services:
     ports:
      - "80"
     network_mode: "bridge"
-    container_name: social_ci_web
+    container_name: openfolio_ci_web
 
   db:
     image: mysql:5.6
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=social
+      - MYSQL_DATABASE=openfolio
     volumes:
      - db_data:/var/lib/mysql
     ports:
       - "3307:3306"
     network_mode: "bridge"
-    container_name: social_ci_db
+    container_name: openfolio_ci_db
 
   mailcatcher:
     image: schickling/mailcatcher
     environment:
-      - VIRTUAL_HOST=mailcatcher.social.dev
+      - VIRTUAL_HOST=mailcatcher.openfolio.dev
       - VIRTUAL_PORT=1080
     ports:
       - "1080"
     network_mode: "bridge"
-    container_name: social_mailcatcher
+    container_name: openfolio_mailcatcher
 
   selenium:
     image: selenium/standalone-firefox:2.48.2
     links:
      - web:web
     volumes:
-      - ./html/profiles/contrib/social/tests/behat/features/files/:/files
+      - ./html/profiles/contrib/openfolio/tests/behat/features/files/:/files
     ports:
      - "4444"
      - "5900"
@@ -59,10 +59,10 @@ services:
      - NET_ADMIN
      - NET_RAW
     network_mode: "bridge"
-    container_name: social_ci_selenium
+    container_name: openfolio_ci_selenium
 
   behat:
-    image: goalgorilla/open_social_docker:ci
+    image: asghaier/openfolio_docker:ci
     volumes:
      - ./:/var/www
     links:
@@ -73,7 +73,7 @@ services:
     environment:
      - DRUPAL_SETTINGS=production
     network_mode: "bridge"
-    container_name: social_ci_behat
+    container_name: openfolio_ci_behat
 
 volumes:
   db_data:

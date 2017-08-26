@@ -2,47 +2,47 @@ version: "2"
 
 services:
   web:
-    image: goalgorilla/open_social_docker:dev
+    image: asghaier/openfolio_docker:dev
     volumes:
      - ./:/var/www
     links:
      - db
      - mailcatcher
     environment:
-     - VIRTUAL_HOST=social.dev
+     - VIRTUAL_HOST=openfolio.dev
      - DRUPAL_SETTINGS=development
     ports:
      - "80"
     network_mode: "bridge"
-    container_name: social_web
+    container_name: openfolio_web
 
   db:
     image: mysql:5.6
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=social
+      - MYSQL_DATABASE=openfolio
     volumes:
       - db_data:/var/lib/mysql
     ports:
       - "3307:3306"
     network_mode: "bridge"
-    container_name: social_db
+    container_name: openfolio_db
     command: mysqld --max_allowed_packet=16M
 
   mailcatcher:
     image: schickling/mailcatcher
     environment:
-      - VIRTUAL_HOST=mailcatcher.social.dev
+      - VIRTUAL_HOST=mailcatcher.openfolio.dev
       - VIRTUAL_PORT=1080
     ports:
       - "1080"
     network_mode: "bridge"
-    container_name: social_mailcatcher
+    container_name: openfolio_mailcatcher
 
   selenium:
     image: selenium/standalone-firefox-debug:2.48.2
     volumes:
-      - ./html/profiles/contrib/social/tests/behat/features/files/:/files
+      - ./html/profiles/contrib/openfolio/tests/behat/features/files/:/files
     links:
      - web:web
     ports:
@@ -52,10 +52,10 @@ services:
      - NET_ADMIN
      - NET_RAW
     network_mode: "bridge"
-    container_name: social_selenium
+    container_name: openfolio_selenium
 
   behat:
-    image: goalgorilla/open_social_docker:dev
+    image: asghaier/openfolio_docker:dev
     volumes:
      - ./:/var/www
     links:
@@ -65,10 +65,10 @@ services:
     environment:
      - DRUPAL_SETTINGS=development
     network_mode: "bridge"
-    container_name: social_behat
+    container_name: openfolio_behat
 
   cron:
-    image: goalgorilla/open_social_docker:cron
+    image: asghaier/openfolio_docker:cron
     volumes:
      - ./:/var/www
     links:
@@ -77,7 +77,7 @@ services:
     environment:
      - DRUPAL_SETTINGS=development
     network_mode: "bridge"
-    container_name: social_cron
+    container_name: openfolio_cron
 
 volumes:
   db_data:
